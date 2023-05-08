@@ -341,6 +341,13 @@ class NamedTupleCursor(_cursor):
             nt = self.Record = self._make_nt()
         return list(map(nt._make, ts))
 
+    def fetchall_dictionary(self):
+        desc = cursor.description
+        return [
+            dict(zip([col[0] for col in desc], row))
+            for row in cursor.fetchall()
+        ]
+
     def __iter__(self):
         try:
             it = super().__iter__()
